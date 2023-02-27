@@ -1,6 +1,6 @@
 ## 포트폴리오 프로젝트 쇼핑몰
 
-## React, Firebase, Cloudinary, TanStack Query
+## React, Tailwind Css, Firebase, Cloudinary, TanStack Query
 
 ### (1)상품목록, 로그인, 장바구니 등 결제를 제외한 기본적인 주문 과정 구현
 

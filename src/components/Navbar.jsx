@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styles from "./Navbar.module.css";
 import { login, logout, onUserStateChange } from "../api/firebase";
 
 export default function Navbar() {
@@ -26,12 +25,12 @@ export default function Navbar() {
 
   return (
     <>
-      <header className={styles.header}>
-        <Link to="/" className={styles.logo}>
-          <span className={styles.span}>TOMATO SHOP</span>
+      <header className="flex justify-between border-b border-gray-300 p-5">
+        <Link to="/" className="flex items-center text-4xl text-brand">
+          <span>TOMATO SHOP</span>
         </Link>
 
-        <nav className={styles.nav}>
+        <nav className="flex items-center gap-5 font-semibold">
           <Link to="/products">Products</Link>
           <Link to="/carts">Carts</Link>
           <Link to="/products/new">NEW</Link>
