@@ -12,7 +12,7 @@ export default function Navbar() {
     <>
       <header className="flex justify-between border-b border-gray-300 p-5">
         <Link to="/" className="flex items-center text-4xl text-brand">
-          <span>TOMATO SHOP</span>
+          <span>CASE SHOP</span>
         </Link>
 
         <nav className="flex items-center gap-5 font-semibold">
