@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { login, logout, onUserStateChange } from "../api/firebase";
+// import { login, logout, onUserStateChange } from "../api/firebase";
 import { useAuthContext } from "./context/AuthContext";
 import Button from "./ui/Button";
 import User from "./User";
