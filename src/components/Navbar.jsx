@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-// import { login, logout, onUserStateChange } from "../api/firebase";
-import { useAuthContext } from "./context/AuthContext";
+import { useAuthContext } from "../context/AuthContext";
+import CartStatus from "./CartStatus";
 import Button from "./ui/Button";
 import User from "./User";
 
@@ -18,7 +18,11 @@ export default function Navbar() {
         <nav className="flex items-center gap-5 font-semibold">
           <Link to="/products">Products</Link>
 
-          {user && <Link to="/carts">Carts</Link>}
+          {user && (
+            <Link to="/carts">
+              <CartStatus />
+            </Link>
+          )}
 
           {/* user의 isAdmin이 true인 경우에만!  */}
           {user && user.isAdmin && <Link to="/products/new">NEW</Link>}

@@ -6,6 +6,7 @@ export default function ProductCard({
   product: { id, image, title, category, price },
 }) {
   const navigate = useNavigate();
+
   return (
     <>
       <li

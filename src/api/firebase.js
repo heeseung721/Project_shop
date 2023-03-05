@@ -7,7 +7,7 @@ import {
   signOut,
   onAuthStateChanged,
 } from "firebase/auth";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, get, remove } from "firebase/database";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,6 +22,7 @@ const auth = getAuth();
 const provider = new GoogleAuthProvider();
 const database = getDatabase(app);
 
+//로그인&로그아웃
 export function login() {
   signInWithPopup(auth, provider).catch(console.error);
 }
@@ -38,6 +39,7 @@ export function onUserStateChange(callback) {
   });
 }
 
+//관리자 계정
 async function adminUser(user) {
   // 2.그 사용자가 어드민 권한을 갖고 있는지 확인
   // 3.{...user, isAdmin:true/false}
@@ -52,6 +54,7 @@ async function adminUser(user) {
   });
 }
 
+//새로운 제품 등록
 export async function addNewProduct(product, image) {
   const id = uuid();
   return set(ref(database, `products/${id}`), {
@@ -70,4 +73,20 @@ export async function getProducts() {
     }
     return [];
   });
+}
+
+//장바구니
+export async function getCart(userId) {
+  return get(ref(database, `carts/${userId}`)).then((snapshot) => {
+    const items = snapshot.val() || {};
+    return Object.values(items);
+  });
+}
+
+export async function addOrUpdateToCart(userId, product) {
+  return set(ref(database, `carts/${userId}/${product.id}`), product);
+}
+
+export async function removeFromCart(userId, productId) {
+  return remove(ref(database, `carts/${userId}/${productId}`));
 }
