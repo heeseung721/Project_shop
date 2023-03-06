@@ -1,16 +1,15 @@
 import React from "react";
-import { useQuery } from "@tanstack/react-query";
-import { getCart } from "../api/firebase";
-import { useAuthContext } from "../context/AuthContext";
 import CartItem from "../components/CartItem";
 import PriceCard from "../components/PriceCard";
 import Button from "../components/ui/Button";
+import useCart from "../hooks/useCart";
 
 const SHIPPING = 3000;
 
 export default function MyCart() {
-  const { uid } = useAuthContext();
-  const { isLoading, data: products } = useQuery(["carts"], () => getCart(uid));
+  const {
+    cartQuery: { isLoading, data: products },
+  } = useCart();
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -27,26 +26,26 @@ export default function MyCart() {
   return (
     <>
       <section className="p-8 flex flex-col">
-        <p className="text-2xl text-center font-bold pb-4 border-gray-300">
+        <p className="text-2xl text-center font-bold pb-4 border-b  border-gray-300">
           내 장바구니
         </p>
-        {!hasProducts && <p>empty! </p>}
+        {!hasProducts && <p>장바구니가 비어있습니다</p>}
         {hasProducts && (
           <>
-            <ul>
+            <ul className="border-b border-gray-300 mb-8 p-4 px-8">
               {products &&
                 products.map((product) => (
-                  <CartItem key={product.id} product={product} uid={uid} />
+                  <CartItem key={product.id} product={product} />
                 ))}
             </ul>
-            <div className="flex justify-between mb-4 items-center p-2 md:px-8">
+            <div className="flex justify-between mb-6 px-2 md:px-8 lg:px-16 items-center p-2">
               <PriceCard text="상품가격" price={totalPrice} />
-              <p>+</p>
+              <div>+</div>
               <PriceCard text="배송액" price={SHIPPING} />
-              <p>=</p>
+              <div>=</div>
               <PriceCard text="총 합계" price={totalPrice + SHIPPING} />
             </div>
-            <Button text="ORDER!" />
+            <Button text="주문하기" />
           </>
         )}
       </section>

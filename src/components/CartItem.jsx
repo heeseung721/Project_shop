@@ -1,20 +1,21 @@
 import React from "react";
-import { addOrUpdateToCart, removeFromCart } from "../api/firebase";
+import useCart from "../hooks/useCart";
 
 export default function CartItem({
   product,
   product: { id, image, title, option, quantity, price },
-  uid,
 }) {
+  const { addOrUpdateItem, removeItem } = useCart();
+
   const handleMinus = () => {
     if (quantity < 2) return;
-    addOrUpdateToCart(uid, { ...product, quantity: quantity - 1 });
+    addOrUpdateItem.mutate({ ...product, quantity: quantity - 1 });
   };
   const handlePlus = () => {
-    addOrUpdateToCart(uid, { ...product, quantity: quantity + 1 });
+    addOrUpdateItem.mutate({ ...product, quantity: quantity + 1 });
   };
   const handleDelete = () => {
-    removeFromCart(uid, id);
+    removeItem.mutate(id);
   };
 
   return (
@@ -27,25 +28,25 @@ export default function CartItem({
             <p className="text-xl font-bold text-brand">{option}</p>
             <p>{price}원</p>
           </div>
-          <div className="text-2xl flex items-center">
-            <p
-              className="transition-all cursor-pointer hover:text-brand mx-1 "
+          <div className="text-2xl flex items-center mr-19">
+            <div
+              className=" transition-all cursor-pointer hover:text-brand mx-1 p-3 font-semibold "
               onClick={handleMinus}
             >
               -
-            </p>
+            </div>
             <span>{quantity}</span>
-            <p
-              className="transition-all cursor-pointer hover:text-brand mx-1 "
+            <div
+              className="transition-all cursor-pointer hover:text-brand mx-1 p-3 font-semibold"
               onClick={handlePlus}
             >
               +
-            </p>
+            </div>
             <p
-              className="transition-all cursor-pointer hover:text-brand mx-1 "
+              className="transition-all cursor-pointer hover:text-brand mx-1 border p-1"
               onClick={handleDelete}
             >
-              Delete
+              삭제
             </p>
           </div>
         </div>

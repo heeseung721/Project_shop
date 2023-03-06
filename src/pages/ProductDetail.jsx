@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router";
-import { addOrUpdateToCart } from "../api/firebase";
 import Button from "../components/ui/Button";
-import { useAuthContext } from "../context/AuthContext";
+import useCart from "../hooks/useCart";
 
 export default function ProductDetail() {
-  const { uid } = useAuthContext();
+  const { addOrUpdateItem } = useCart();
   const {
     state: {
       product: { id, image, title, description, category, price, options },
     },
   } = useLocation();
+
+  const [success, setSuccess] = useState();
 
   //options 가 있으면 그 옵션 배열의 첫번째 요소를 기본 selected로!
   const [selected, setSelected] = useState(options && options[0]);
@@ -18,7 +19,12 @@ export default function ProductDetail() {
   const handleClick = (e) => {
     //장바구니에 추가하면 됨
     const product = { id, image, title, price, option: selected, quantity: 1 };
-    addOrUpdateToCart(uid, product);
+    addOrUpdateItem.mutate(product, {
+      onSuccess: () => {
+        setSuccess("장바구니에 추가 되었습니다!");
+        setTimeout(() => setSuccess(null), 3000);
+      },
+    });
   };
 
   return (
@@ -48,6 +54,10 @@ export default function ProductDetail() {
                 ))}
             </select>
           </div>
+
+          {/* success가 true이면(장바구니에 추가가 되면) 위에 적어둔 추가되었다는 문구를 보여줌  */}
+          {success && <p className="my-2">{success}</p>}
+
           <Button text="장바구니에 추가하기" onClick={handleClick} />
         </div>
       </section>
