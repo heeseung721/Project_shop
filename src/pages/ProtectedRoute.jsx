@@ -2,9 +2,14 @@ import React from "react";
 import { Navigate } from "react-router";
 import { useAuthContext } from "../context/AuthContext";
 
+//children 경로에 접근할 수 있는 권한이 있는 경우에 표시할 컴포넌트
+//requireAdmin 이 값이 true인 경우, 경로에 접근할 수 있는 권한이 있는 사용자는 관리자 계정이어야 함
+
 export default function ProtectedRoute({ children, requireAdmin }) {
+  //useAuthContext 를 사용하여 현재 사용자가 관리자인지 여부를 확인
   const { user } = useAuthContext();
 
+  //사용자가 인증되지 않았거나 관리자가 아닌 경우 다른 경로로 리디렉션
   if (!user || (requireAdmin && !user.isAdmin)) {
     return <Navigate to="/" replace={true} />;
   }

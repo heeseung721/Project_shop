@@ -7,13 +7,16 @@ export default function CartItem({
 }) {
   const { addOrUpdateItem, removeItem } = useCart();
 
+  //수량 증가
   const handleMinus = () => {
     if (quantity < 2) return;
     addOrUpdateItem.mutate({ ...product, quantity: quantity - 1 });
   };
+  //수량 감소
   const handlePlus = () => {
     addOrUpdateItem.mutate({ ...product, quantity: quantity + 1 });
   };
+  //상품 삭제
   const handleDelete = () => {
     removeItem.mutate(id);
   };
